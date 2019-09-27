@@ -7,6 +7,7 @@ namespace Test2
     [TestClass]
     public class UnitTest1
     {
+        public TestContext TestContext { get; set; }
         [TestMethod]
         public void TestMethod1()
         {
@@ -56,5 +57,17 @@ namespace Test2
             double actual = MyPower.Power(-2, -1);
             Assert.AreEqual(expected, actual);
         }
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", @".\TestData.csv", "TestData#csv", DataAccessMethod.Sequential)]
+        [TestMethod]
+        public void TestWithDataSource()
+        {
+            int a = int.Parse(TestContext.DataRow[0].ToString());
+            int b = int.Parse(TestContext.DataRow[1].ToString());
+            int expected = int.Parse(TestContext.DataRow[2].ToString());
+            Calculation c = new Calculation(a, b);
+            int actual = c.execute("+");
+            Assert.AreEqual(expected, actual);
+        }
     }   
+
 }
